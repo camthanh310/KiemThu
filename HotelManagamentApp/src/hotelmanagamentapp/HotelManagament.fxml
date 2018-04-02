@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane fx:id="gridMainPan" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="309.0" prefWidth="519.0" stylesheets="@layoutApp.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.HotelManagamentController">
+  <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="231.0" minWidth="10.0" prefWidth="48.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="467.0" minWidth="10.0" prefWidth="467.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="128.0" minWidth="10.0" prefWidth="48.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="209.0" minHeight="10.0" prefHeight="58.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="264.0" minHeight="10.0" prefHeight="240.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="ĐĂNG NHẬP" GridPane.columnIndex="1" GridPane.halignment="CENTER">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font>
+      </Label>
+      <Pane prefHeight="236.0" prefWidth="467.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <Label layoutX="60.0" layoutY="49.0" text="Tên đăng nhập:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Label layoutX="60.0" layoutY="87.0" text="Mật khẩu:">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <TextField id="txtTenDangNhap" fx:id="txtTenDangNhap" layoutX="176.0" layoutY="47.0" prefHeight="25.0" prefWidth="198.0" promptText="Nhập tên đăng nhập tại đây..." />
+            <PasswordField fx:id="txtMatKhau" layoutX="176.0" layoutY="85.0" prefHeight="25.0" prefWidth="198.0" promptText="Nhập mật khẩu tại đây..." />
+            <Button id="btnDangNhap" fx:id="btnDangNhap" defaultButton="true" layoutX="176.0" layoutY="122.0" mnemonicParsing="false" onAction="#btnDangNhap" text="Đăng nhập" textAlignment="CENTER" />
+            <Button id="btnLamMoi" fx:id="btnLamMoi" layoutX="275.0" layoutY="122.0" mnemonicParsing="false" onAction="#btnLamMoi" text="Làm mới" />
+            <Button id="btnThoat" fx:id="btnThoat" layoutX="176.0" layoutY="187.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="162.0" text="Thoát" textFill="RED" />
+         </children>
+      </Pane>
+   </children>
+</GridPane>

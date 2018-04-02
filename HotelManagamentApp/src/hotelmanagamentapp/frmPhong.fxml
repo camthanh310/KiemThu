@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="516.0" stylesheets="@layoutApp.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.FrmPhongController">
+   <children>
+      <TextField fx:id="txtMaPhong" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+      <TextField fx:id="txtTenPhong" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      <Label text="Mã Phòng" GridPane.rowIndex="2" />
+      <Label text="Tên Phòng" GridPane.rowIndex="3" />
+      <Label text="Loại Phòng" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+      <Label text="Tình Trạng Phòng" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+      <ComboBox fx:id="cbMaLoaiPhong" disable="true" prefHeight="25.0" prefWidth="201.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+      <Button fx:id="btnSuaPhong" mnemonicParsing="false" onAction="#suaPhong_Click" styleClass="btnSuaLoaiPhong" text="Sửa" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtTieuDePhong" text="Quản Lý Phòng" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowSpan="2" />
+      <CheckBox fx:id="chbTinhTrangPhong" disable="true" mnemonicParsing="false" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" GridPane.rowIndex="6" />
+      <RadioButton fx:id="rdbTenPhong" mnemonicParsing="false" onAction="#isCheckTenPhong" text="Tên Phòng" GridPane.rowIndex="7">
+         <toggleGroup>
+            <ToggleGroup fx:id="timkiemphong" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rdbLoaiPhong" mnemonicParsing="false" onAction="#isCheckLoaiPhong" text="Loại Phòng" toggleGroup="$timkiemphong" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+      <TextField fx:id="txtTimTenPhong" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <TableView fx:id="tbPhong" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="8" GridPane.rowSpan="2">
+         <columns>
+            <TableColumn fx:id="colMaPhong" prefWidth="75.0" text="Mã Phòng" />
+            <TableColumn fx:id="colTenPhong" prefWidth="111.0" text="Tên Phòng" />
+            <TableColumn fx:id="colMaLoaiPhong" prefWidth="101.0" text="Loại Phòng" />
+            <TableColumn fx:id="colTinhTrangPhong" prefWidth="158.0" text="Tình Trạng Phòng" />
+         </columns>
+      </TableView>
+      <Button fx:id="btnXoaPhong" mnemonicParsing="false" onAction="#xoaPhong_Click" text="Xóa" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+      <ComboBox fx:id="cbTimMaLoaiPhong" disable="true" prefHeight="25.0" prefWidth="201.0" GridPane.columnIndex="3" GridPane.rowIndex="7" />
+      <Button fx:id="btnThemPhong" layoutX="243.0" layoutY="158.0" mnemonicParsing="false" onAction="#themPhong_Click" styleClass="btnSuaLoaiPhong" text="Thêm" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button fx:id="btnLuuPhong" layoutX="119.0" layoutY="143.0" mnemonicParsing="false" onAction="#luuPhong_Click" styleClass="btnSuaLoaiPhong" text="Lưu" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <Button fx:id="btnHuyPhong" mnemonicParsing="false" onAction="#huyPhong_Click" styleClass="btnSuaLoaiPhong" text="Hủy" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="5" />
+   </children>
+   <columnConstraints>
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="273.0" minWidth="10.0" prefWidth="109.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="316.0" minWidth="10.0" prefWidth="124.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="131.0" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="152.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+   </rowConstraints>
+</GridPane>
