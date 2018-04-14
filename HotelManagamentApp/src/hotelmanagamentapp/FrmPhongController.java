@@ -6,6 +6,7 @@
 package hotelmanagamentapp;
 
 import Data.ConnectingDB;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,10 +19,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,6 +34,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 /**
@@ -75,6 +82,13 @@ public class FrmPhongController implements Initializable {
     private Button btnHuyPhong;
     @FXML
     private Button btnThemPhong;
+    @FXML
+    private AnchorPane mainPane;
+    @FXML
+    private Label errorTenPhong;
+    @FXML
+    private RadioButton rdbTatCaPhong;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
@@ -86,12 +100,14 @@ public class FrmPhongController implements Initializable {
         hienThiGiaTriTuTableView();
         TimKiemTenPhong();
     }  
+    
     private void setCellTable(){
         colMaPhong.setCellValueFactory(new PropertyValueFactory<>("maPhong"));
         colTenPhong.setCellValueFactory(new PropertyValueFactory<>("tenPhong"));
         colMaLoaiPhong.setCellValueFactory(new PropertyValueFactory<>("tenLoaiPhong"));
         colTinhTrangPhong.setCellValueFactory(new PropertyValueFactory<>("tinhTrangPhong"));
     }
+    
     private void hienThiGiaTriTuTableView(){
         tbPhong.setOnMouseClicked((MouseEvent event) -> {
             Phong p = tbPhong.getItems().get(tbPhong.getSelectionModel().getSelectedIndex());
@@ -171,6 +187,7 @@ public class FrmPhongController implements Initializable {
       btnHuyPhong.setVisible(true);
       btnSuaPhong.setDisable(true);
       btnThemPhong.setDisable(true);
+      btnXoaPhong.setDisable(true);
       flag = true;
     }
 
@@ -186,9 +203,10 @@ public class FrmPhongController implements Initializable {
         btnThemPhong.setDisable(true);
     }
     
-    private int layMaLoaiPhong(String tenLoaiPhong) throws SQLException{
-        PreparedStatement preparedStatement = null;
+    public int layMaLoaiPhong(String tenLoaiPhong) throws SQLException {
+        PreparedStatement preparedStatement;
         String strSQL = "SELECT MaLoaiPhong FROM LoaiPhong WHERE TenLoaiPhong=?";
+        connection = ConnectingDB.getConnection();
         preparedStatement = connection.prepareStatement(strSQL);
         preparedStatement.setString(1, tenLoaiPhong);
         rs = preparedStatement.executeQuery();
@@ -199,113 +217,122 @@ public class FrmPhongController implements Initializable {
     
     @FXML
     private void xoaPhong_Click(ActionEvent event) {
-        PreparedStatement preparedStatement = null;
-        String sql = "delete from Phong where MaPhong=?";
+        int maPhong = Integer.parseInt(txtMaPhong.getText());
+        if (luuXoaPhong(maPhong)) {
+            JOptionPane.showMessageDialog(null, "Xóa thành công");
+            tbPhong.getItems().clear();
+            hienThiDuLieuPhong();
+            txtMaPhong = null;
+            txtTenPhong = null;
+            chbTinhTrangPhong = null;
+            cbMaLoaiPhong.getSelectionModel().select(1);
+        }
+    }
+
+    public boolean luuXoaPhong(int maPhong) {
         try {
+            PreparedStatement preparedStatement;
+            String sql = "delete from Phong where MaPhong=?";
+            connection = ConnectingDB.getConnection();
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, Integer.parseInt(txtMaPhong.getText()));
-            int i = preparedStatement.executeUpdate();
-            if(i == 1){
-                JOptionPane.showMessageDialog(null, "Xóa thành công"); 
-                tbPhong.getItems().clear();
-                hienThiDuLieuPhong();
-                txtMaPhong = null;
-                txtTenPhong = null;
-                chbTinhTrangPhong = null;
-                cbMaLoaiPhong.getSelectionModel().select(1);
-            } 
+            preparedStatement.setInt(1, maPhong);
+            preparedStatement.executeUpdate();
+            return true;
         } catch (SQLException ex) {
-            Logger.getLogger(FrmPhongController.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }  
+    
+    public boolean luuSuaPhong(int maPhong, String tenPhong, String loaiPhong,String tinhTrangPhong) {
+        try {           
+            String sql = "Update Phong Set TenPhong = ?,MaLoaiPhong = ?, TinhTrangPhong = ? Where MaPhong = ?";
+            Phong phong = new Phong();
+            phong.setMaPhong(maPhong);
+            phong.setTenPhong(tenPhong);
+            phong.setTenLoaiPhong(loaiPhong);
+            phong.setTinhTrangPhong(tinhTrangPhong);
+            connection = ConnectingDB.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);          
+            preparedStatement.setString(1, phong.getTenPhong());
+            preparedStatement.setInt(2, layMaLoaiPhong(phong.getTenLoaiPhong()));
+            preparedStatement.setString(3, phong.getTinhTrangPhong());
+             preparedStatement.setInt(4, phong.getMaPhong());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            return false;
         }
     }
-
-    @FXML
-    private void isCheckTenPhong(ActionEvent event) {
-        if (rdbTenPhong.isSelected()== true){
-        txtTimTenPhong.setDisable(false);
-        cbTimMaLoaiPhong.setDisable(true);
-        }
-    }
-
-    @FXML
-    private void isCheckLoaiPhong(ActionEvent event) {
-        if (rdbLoaiPhong.isSelected()== true){
-        txtTimTenPhong.setDisable(true);
-        cbTimMaLoaiPhong.setDisable(false);
-        }
-    }
-
-    @FXML
-    private void luuPhong_Click(ActionEvent event) throws SQLException {
-        if(flag == true){
-            PreparedStatement prepare = null;
+    
+    public boolean luuThemPhong(int maPhong, String tenPhong, String loaiPhong,String tinhTrangPhong) {
+        try {           
             String sql = "INSERT INTO Phong(MaPhong, TenPhong, MaLoaiPhong, TinhTrangPhong) VALUES (?, ?, ?, ?)";
             Phong phong = new Phong();
-            phong.setMaPhong(Integer.parseInt(txtMaPhong.getText()));
-            phong.setTenPhong(txtTenPhong.getText());
-//      String str=cbMaLoaiPhong.getSelectionModel().getSelectedItem().toString();
-//      phong.setMaLoaiPhong(Integer.parseInt(cbMaLoaiPhong.getValue().toString()));
-//int iMa=layMaLoaiPhong(cbMaLoaiPhong.getSelectionModel().getSelectedItem().toString());
-            phong.setTenLoaiPhong(cbMaLoaiPhong.getValue().toString());
-            if (chbTinhTrangPhong.isSelected() == true) {
-                phong.setTinhTrangPhong("Đã Đặt");
-            } else {
-                phong.setTinhTrangPhong("Còn Trống");
-            }
-            try {
-
-                prepare = connection.prepareStatement(sql);
-                prepare.setInt(1, phong.getMaPhong());
-                prepare.setString(2, phong.getTenPhong());
-                prepare.setInt(3, layMaLoaiPhong(phong.getTenLoaiPhong()));
-                String q = phong.getTinhTrangPhong();
-                prepare.setString(4, q);
-                int i = prepare.executeUpdate();
-                if (i == 1) {
+            phong.setMaPhong(maPhong);
+            phong.setTenPhong(tenPhong);
+            phong.setTenLoaiPhong(loaiPhong);
+            phong.setTinhTrangPhong(tinhTrangPhong);
+            connection = ConnectingDB.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, phong.getMaPhong());
+            preparedStatement.setString(2, phong.getTenPhong());
+            preparedStatement.setInt(3, layMaLoaiPhong(phong.getTenLoaiPhong()));
+            preparedStatement.setString(4, phong.getTinhTrangPhong());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+    
+   @FXML
+    private void luuPhong_Click(ActionEvent event) throws SQLException {
+        boolean isTenPhongTrong = validation.KiemTraGiaTriTrong.kiemTraloiGiaTriTrongTextField(txtTenPhong.getText(), errorTenPhong, "Tên không được trống");
+        boolean isTenPhongKyTuDacBiet = validation.KiemTraKyTuDacBiet.KiemTraKyTuDacBietTextField(txtTenPhong.getText(), errorTenPhong, "Tên không trống và có ký tự đặc biệt");
+        if (flag == true) {
+            if (isTenPhongTrong && isTenPhongKyTuDacBiet) {
+                int maPhong = Integer.parseInt(txtMaPhong.getText());
+                String tenPhong = txtTenPhong.getText();
+                String loaiPhong = cbMaLoaiPhong.getValue().toString();
+                String tinhTrangPhong = null;
+                if (chbTinhTrangPhong.isSelected() == true) {
+                    tinhTrangPhong = "Đã Đặt";
+                } else {
+                    tinhTrangPhong = "Còn Trống";
+                }
+                if (luuThemPhong(maPhong, tenPhong, loaiPhong, tinhTrangPhong)) {
                     JOptionPane.showMessageDialog(null, "Thêm thành công 1 dòng");
                     tbPhong.getItems().clear();
                     hienThiDuLieuPhong();
+                    LamMoi();
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(FrmPhongController.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                prepare.close();
             }
-        }
-        else{
-            PreparedStatement preparedStatement = null;
-            String sql = "Update Phong Set TenPhong = ?,MaLoaiPhong = ?, TinhTrangPhong = ? Where MaPhong = ?";
-            Phong phong = new Phong();
-            phong.setTenPhong(txtTenPhong.getText());
-            phong.setTenLoaiPhong(cbMaLoaiPhong.getValue().toString());
-            if (chbTinhTrangPhong.isSelected() == true) {
-                phong.setTinhTrangPhong("Đã Đặt");
-            } else {
-                phong.setTinhTrangPhong("Còn Trống");
-            }
-            phong.setMaPhong(Integer.parseInt(txtMaPhong.getText()));
-            try {
-
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, phong.getTenPhong());
-                preparedStatement.setInt(2, layMaLoaiPhong(phong.getTenLoaiPhong()));
-                preparedStatement.setString(3, phong.getTinhTrangPhong());
-                preparedStatement.setInt(4, phong.getMaPhong());
-
-                int i = preparedStatement.executeUpdate();
-                if (i == 1) {
+        } else {
+            if (isTenPhongTrong && isTenPhongTrong) {
+                int maPhong = Integer.parseInt(txtMaPhong.getText());
+                String tenPhong = txtTenPhong.getText();
+                String loaiPhong = cbMaLoaiPhong.getValue().toString();
+                String tinhTrangPhong = null;
+                if (chbTinhTrangPhong.isSelected() == true) {
+                    tinhTrangPhong = "Đã Đặt";
+                } else {
+                    tinhTrangPhong = "Còn Trống";
+                }
+                if (luuSuaPhong(maPhong, tenPhong, loaiPhong, tinhTrangPhong)) {
                     JOptionPane.showMessageDialog(null, "Sửa thành công 1 dòng");
                     tbPhong.getItems().clear();
                     hienThiDuLieuPhong();
+                    LamMoi();
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(FrmPhongController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
     @FXML
     private void huyPhong_Click(ActionEvent event) {
+        LamMoi();
+    }
+    private void LamMoi(){
         txtTenPhong.setDisable(true);
         cbMaLoaiPhong.setDisable(true);
         chbTinhTrangPhong.setDisable(true);
@@ -313,6 +340,7 @@ public class FrmPhongController implements Initializable {
         btnSuaPhong.setDisable(false);
         btnLuuPhong.setVisible(false);
         btnHuyPhong.setVisible(false);
+        btnXoaPhong.setDisable(false);
     }
     private void TimKiemTenPhong(){
         txtTimTenPhong.setOnKeyReleased(e->{
@@ -342,7 +370,95 @@ public class FrmPhongController implements Initializable {
             }        
         });
     }
-    private void TimKiemLoaiPhong(){
+   @FXML
+    private void timKiemLoaiPhong(ActionEvent event) {
+        PreparedStatement preparedStatement = null;
+        data.clear();
+        String sql = "select MaPhong,TenPhong,TenLoaiPhong,TinhTrangPhong from Phong,LoaiPhong Where Phong.MaLoaiPhong= LoaiPhong.MaLoaiPhong and TenLoaiPhong = '"+cbTimMaLoaiPhong.getValue()+"'";
+        try {               
+        preparedStatement = connection.prepareStatement(sql);
+        rs = preparedStatement.executeQuery();
+       while(rs.next()){
+        data.add(new Phong(
+            rs.getInt(1),
+            rs.getString(2),                                                                 
+            rs.getString(3),
+            rs.getString(4)
+            ));               
+        } 
+        tbPhong.setItems(data);
+        } catch (SQLException ex) {
+           Logger.getLogger(FrmPhongController.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+    }
+    
+    @FXML
+    private void btnVeMenuChinh_Click(ActionEvent event) {
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.close();
         
+        try {
+            frmTrangChuController.strLoaiNguoiDung = "quanly";
+            Parent root = FXMLLoader.load(getClass().getResource("/hotelmanagamentapp/frmTrangChu.fxml"));
+            Scene scene = new Scene(root);
+            stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(frmTiepNhanKhachController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi đăng xuất.\n\n" + ex);
+        }
+    }
+    
+    @FXML
+    private void btnThoat_Click(ActionEvent event) {
+        if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thoát chương trình?", "Xác nhận hành động", 0, 2) == 0) {
+            // 0: error; 1: information; 2: warning
+            Stage stage = (Stage) mainPane.getScene().getWindow();
+            stage.close();
+        }
+    }
+    
+    @FXML
+    private void btnDangXuat_Click(ActionEvent event) {
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.close();
+        
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/hotelmanagamentapp/HotelManagament.fxml"));
+            Scene scene = new Scene(root);
+            stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Đăng nhập");
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(frmTiepNhanKhachController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi đăng xuất.\n\n" + ex);
+        }
+    }
+
+    @FXML
+    private void isCheckTenPhong(ActionEvent event) {
+        if (rdbTenPhong.isSelected() == true) {
+            txtTimTenPhong.setDisable(false);
+            cbTimMaLoaiPhong.setDisable(true);
+        }
+    }
+
+    @FXML
+    private void isCheckLoaiPhong(ActionEvent event) {
+        if (rdbLoaiPhong.isSelected() == true) {
+            txtTimTenPhong.setDisable(true);
+            cbTimMaLoaiPhong.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void isCheckTatCa(ActionEvent event) {
+        if (rdbTatCaPhong.isSelected() == true) {
+            txtTimTenPhong.setDisable(true);
+            cbTimMaLoaiPhong.setDisable(true);
+        }
+        hienThiDuLieuPhong();
     }
 }

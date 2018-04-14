@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.chart.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="589.0" prefWidth="614.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.frmLapBaoCaoController">
+    <stylesheets>
+        <URL value="@layoutApp.css" />
+    </stylesheets>
+   <children>
+      <MenuBar layoutX="14.0" layoutY="14.0" stylesheets="@nhanVienLayout.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Chức năng khác">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#btnVeMenuChinh_Click" text="Trở về menu chính" />
+                  <MenuItem mnemonicParsing="false" onAction="#btnDangXuat_Click" text="Đăng xuất" />
+                  <MenuItem mnemonicParsing="false" onAction="#btnThoat_Click" text="Thoát chương trình" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <VBox alignment="TOP_CENTER" layoutY="167.0" prefHeight="380.0" prefWidth="614.0">
+         <children>
+            <Pane fx:id="paneView" prefHeight="326.0" prefWidth="614.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+      <Text layoutX="101.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="BÁO CÁO DOANH THU">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Text>
+      <Label layoutX="38.0" layoutY="130.0" text="Xem theo:" />
+      <ComboBox fx:id="cboKieuXem" layoutX="123.0" layoutY="130.0" onAction="#cboKieuXem_SelectedChange" prefWidth="150.0" />
+      <ComboBox fx:id="cboKieuXemChiTiet" layoutX="283.0" layoutY="129.0" onAction="#cboKieuXemChiTiet_SelectedChange" prefWidth="150.0" />
+   </children>
+</AnchorPane>

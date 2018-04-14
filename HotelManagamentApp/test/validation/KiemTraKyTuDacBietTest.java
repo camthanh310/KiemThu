@@ -37,9 +37,11 @@ public class KiemTraKyTuDacBietTest {
     public void tearDown() {
     }
 
-    /**
-     * Test of textCharSpecial method, of class KiemTraKyTuDacBiet.
-     */
+    // TODO add test methods here.
+    // The methods must be annotated with annotation @Test. For example:
+    //
+    // @Test
+    // public void hello() {}
     @Test
     public void kiemTraKyTuDacBiet() {
         boolean expectResult = true;
@@ -48,5 +50,4 @@ public class KiemTraKyTuDacBietTest {
         actualResult = KiemTraKyTuDacBiet.kiemTraKyTuDacBiet(text);
         assertEquals(expectResult, actualResult);
     }
-    
 }

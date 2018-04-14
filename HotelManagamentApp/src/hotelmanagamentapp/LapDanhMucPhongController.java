@@ -24,6 +24,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
@@ -31,6 +34,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
 /**
@@ -56,7 +61,6 @@ public class LapDanhMucPhongController implements Initializable {
     @FXML private  TableColumn<?,?> colTenLoaiPhong;
     @FXML private  TableColumn<?,?> colGiaTien;
     @FXML private  TableColumn<?,?> colSoGiuongNgu;
-    @FXML private Label errorMaLoaiPhong;
     @FXML private Label errorTenLoaiPhong;
     @FXML private Label errorGiaTien;
     @FXML
@@ -73,13 +77,19 @@ public class LapDanhMucPhongController implements Initializable {
     private RadioButton rdbTenLoaiPhong;
     @FXML
     private RadioButton rdbGiaTien;
-    @FXML
-    private ToggleGroup timkiem;
     private boolean flag = false;
     @FXML
     private Button btnLuuLoaiPhong;
     @FXML
     private Button btnHuyLoaiPhong;
+    @FXML
+    private AnchorPane mainPane;
+    @FXML
+    private ToggleGroup timkiemloaiphong;
+    @FXML
+    private RadioButton rdbTatCaLoaiPhong;
+    @FXML
+    private Label errorLaSo;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -96,13 +106,29 @@ public class LapDanhMucPhongController implements Initializable {
         TimKiemTenLoaiPhong();
         TimKiemGiaTien();
         
-    } 
+    }
+    
     private void setCellTable(){
         colMaLoaiPhong.setCellValueFactory(new PropertyValueFactory<>("maLoaiPhong"));
         colTenLoaiPhong.setCellValueFactory(new PropertyValueFactory<>("tenLoaiPhong"));
         colGiaTien.setCellValueFactory(new PropertyValueFactory<>("gia"));
         colSoGiuongNgu.setCellValueFactory(new PropertyValueFactory<>("soGiuongNgu"));
-    }    
+    }
+    
+    public boolean luuXoaLoaiPhong(int maLoaiPhong) {
+        try {
+            PreparedStatement preparedStatement;
+            String sql = "delete from LoaiPhong where MaLoaiPhong=?";
+            connection = ConnectingDB.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, maLoaiPhong);
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
     private void hienThiDuLieuLoaiPhong(){
         PreparedStatement preparedStatement = null;
         String query = "select * from LoaiPhong";
@@ -123,7 +149,7 @@ public class LapDanhMucPhongController implements Initializable {
         }
          tbLoaiPhong.setItems(data);  
     }
-    private void hienthiMaLenTextField(){
+    public void hienthiMaLenTextField(){
         PreparedStatement preparedStatement = null;
         int iMaLoaiPhong = 0;
         String strSQL = "SELECT MAX(MaLoaiPhong) as max FROM LoaiPhong";
@@ -150,24 +176,6 @@ public class LapDanhMucPhongController implements Initializable {
             }           
         });   
     }
-    private boolean kiemTraGiaTriTrongTextField(TextField tF){
-        boolean bl = false;
-        if(tF.getText().length() != 0 || !tF.getText().isEmpty()){
-            bl = true;
-        }
-        return bl;
-    }
-    private boolean kiemTraloiGiaTriTrongTextField(TextField tF, Label lB, String error){
-        boolean bl = true;
-        String msg = null;
-        if(!kiemTraGiaTriTrongTextField(tF)){
-            bl = false;
-            msg = error;
-        }
-        lB.setText(msg);
-        
-        return bl;
-    }
 
     @FXML 
     private void themLoaiPhong_Click(ActionEvent event){
@@ -182,7 +190,6 @@ public class LapDanhMucPhongController implements Initializable {
       flag = true;
     }
     
-    @FXML
     private void suaLoaiPhong_Click(ActionEvent event) {
       txtTenLoaiPhong.setDisable(false);
       txtGiaTien.setDisable(false);
@@ -196,100 +203,101 @@ public class LapDanhMucPhongController implements Initializable {
 
     @FXML
     private void xoaLoaiPhong_Click(ActionEvent event) {
-        PreparedStatement preparedStatement = null;
-        String sql = "delete from LoaiPhong where MaLoaiPhong=?";
-        try {
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, Integer.parseInt(txtMaLoaiPhong.getText()));
-            int i = preparedStatement.executeUpdate();
-            if(i == 1){
-                JOptionPane.showMessageDialog(null, "Xóa thành công"); 
-                tbLoaiPhong.getItems().clear();
-                hienThiDuLieuLoaiPhong();
-                txtGiaTien = null;
-                txtMaLoaiPhong = null;
-                txtGiaTien = null;
-                cbSoGiuongNgu.getSelectionModel().select("1");
-            } 
-        } catch (SQLException ex) {
-            Logger.getLogger(LapDanhMucPhongController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    @FXML
-    private void isCheckTenLoaiPhong(ActionEvent event) {
-        if (rdbTenLoaiPhong.isSelected()== true){
-        txtTimTenLoaiPhong.setDisable(false);
-        txtTimGiaPhong.setDisable(true);
-        }
-    }
-
-    @FXML
-    private void isCheckGiaTien(ActionEvent event) {
-        if (rdbGiaTien.isSelected()== true){
-        txtTimTenLoaiPhong.setDisable(true);
-        txtTimGiaPhong.setDisable(false);
+        int maLoaiPhong = Integer.parseInt(txtMaLoaiPhong.getText());
+        if (luuXoaLoaiPhong(maLoaiPhong)) {
+            JOptionPane.showMessageDialog(null, "Xóa thành công");
+            tbLoaiPhong.getItems().clear();
+            hienThiDuLieuLoaiPhong();
+            txtGiaTien = null;
+            txtMaLoaiPhong = null;
+            txtGiaTien = null;
+            cbSoGiuongNgu.getSelectionModel().select("1");
         }
     }
 
     @FXML
     private void luuLoaiPhong_Click(ActionEvent event) throws SQLException {
-        if(flag == true){
-            PreparedStatement preparedStatement = null;
-            String sql = "Insert into LoaiPhong(MaLoaiPhong,TenLoaiPhong,Gia,SoGiuongNgu) Values(?,?,?,?)";
-            LoaiPhong loaiPhong = new LoaiPhong();
-            loaiPhong.setMaLoaiPhong(Integer.parseInt(txtMaLoaiPhong.getText()));
-            loaiPhong.setTenLoaiPhong(txtTenLoaiPhong.getText());
-            loaiPhong.setGia(Float.parseFloat(txtGiaTien.getText()));
-            loaiPhong.setSoGiuongNgu(Integer.parseInt(cbSoGiuongNgu.getValue().toString()));
-
-            try {
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setInt(1, loaiPhong.getMaLoaiPhong());
-                preparedStatement.setString(2, loaiPhong.getTenLoaiPhong());
-                preparedStatement.setFloat(3, loaiPhong.getGia());
-                preparedStatement.setInt(4, loaiPhong.getSoGiuongNgu());
-                int i = preparedStatement.executeUpdate();
-                if (i == 1) {
-                    JOptionPane.showMessageDialog(null, "Thêm thành công 1 dòng");
-                    tbLoaiPhong.getItems().clear();
-                    hienThiDuLieuLoaiPhong();
+        boolean isGiaTrong = validation.KiemTraGiaTriTrong.kiemTraloiGiaTriTrongTextField(txtGiaTien.getText(), errorGiaTien, "Giá không trống và là số");
+        boolean isGiaLaSo = validation.KiemTraLaSo.kiemTraLoiGiaTriLaSoTextField(txtGiaTien.getText(), errorGiaTien, "Giá không trống và là số");
+        boolean isTenLoaiPhongTrong = validation.KiemTraGiaTriTrong.kiemTraloiGiaTriTrongTextField(txtTenLoaiPhong.getText(), errorTenLoaiPhong, "Tên không trống và có ký tự đặc biệt");
+        boolean isTenLoaiPhongKyTuDacBiet = validation.KiemTraKyTuDacBiet.KiemTraKyTuDacBietTextField(txtTenLoaiPhong.getText(), errorTenLoaiPhong, "Tên không trống và có ký tự đặc biệt");
+        
+        if (flag == true) {
+            if (isGiaTrong && isTenLoaiPhongTrong && isTenLoaiPhongKyTuDacBiet) {
+                if (isGiaLaSo) {
+                    int maLoaiPhong = Integer.parseInt(txtMaLoaiPhong.getText());
+                    String tenLoaiPhong = txtTenLoaiPhong.getText();
+                    float gia = Float.parseFloat(txtGiaTien.getText());
+                    int soGiuong = Integer.parseInt(cbSoGiuongNgu.getValue().toString());
+                    if (luuThemLoaiPhong(maLoaiPhong, tenLoaiPhong, gia, soGiuong)) {
+                        JOptionPane.showMessageDialog(null, "Thêm thành công 1 dòng");
+                        tbLoaiPhong.getItems().clear();
+                        hienThiDuLieuLoaiPhong();
+                    }
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(LapDanhMucPhongController.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                preparedStatement.close();
             }
-        }
-        else{
-            PreparedStatement preparedStatement = null;
-            String sql = "Update LoaiPhong Set TenLoaiPhong = ?,Gia = ?, SoGiuongNgu = ? Where MaLoaiPhong = ?";
-            LoaiPhong loaiPhong = new LoaiPhong();
-            loaiPhong.setMaLoaiPhong(Integer.parseInt(txtMaLoaiPhong.getText()));
-            loaiPhong.setTenLoaiPhong(txtTenLoaiPhong.getText());
-            loaiPhong.setGia(Float.parseFloat(txtGiaTien.getText()));
-            loaiPhong.setSoGiuongNgu(Integer.parseInt(cbSoGiuongNgu.getValue().toString()));
-            try {
-
-                preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, loaiPhong.getTenLoaiPhong());
-                preparedStatement.setFloat(2, loaiPhong.getGia());
-                preparedStatement.setInt(3, loaiPhong.getSoGiuongNgu());
-                preparedStatement.setInt(4, loaiPhong.getMaLoaiPhong());
-
-                int i = preparedStatement.executeUpdate();
-                if (i == 1) {
+        } 
+        else {
+            if (isGiaTrong && isTenLoaiPhongTrong && isGiaLaSo && isTenLoaiPhongKyTuDacBiet) {
+                int maLoaiPhong = Integer.parseInt(txtMaLoaiPhong.getText());
+                String tenLoaiPhong = txtTenLoaiPhong.getText();
+                float gia = Float.parseFloat(txtGiaTien.getText());
+                int soGiuong = Integer.parseInt(cbSoGiuongNgu.getValue().toString());
+                if (luuSuaLoaiPhong(maLoaiPhong, tenLoaiPhong, gia, soGiuong)) {
                     JOptionPane.showMessageDialog(null, "Sửa thành công 1 dòng");
                     tbLoaiPhong.getItems().clear();
                     hienThiDuLieuLoaiPhong();
                 }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(LapDanhMucPhongController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
 
+    public boolean luuThemLoaiPhong(int maLoaiPhong, String tenLoaiPhong, float giaTien, int soGiuong) {
+        try {
+            String sql = "Insert into LoaiPhong(MaLoaiPhong,TenLoaiPhong,Gia,SoGiuongNgu) Values(?,?,?,?)";
+            LoaiPhong loaiPhong = new LoaiPhong();
+            loaiPhong.setMaLoaiPhong(maLoaiPhong);
+            loaiPhong.setTenLoaiPhong(tenLoaiPhong);
+            loaiPhong.setGia(giaTien);
+            loaiPhong.setSoGiuongNgu(soGiuong);
+
+            connection = ConnectingDB.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, loaiPhong.getMaLoaiPhong());
+            preparedStatement.setString(2, loaiPhong.getTenLoaiPhong());
+            preparedStatement.setFloat(3, loaiPhong.getGia());
+            preparedStatement.setInt(4, loaiPhong.getSoGiuongNgu());
+            preparedStatement.executeUpdate();
+            return true;
+
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public boolean luuSuaLoaiPhong(int maLoaiPhong, String tenLoaiPhong, float giaTien, int soGiuong) {
+        try {
+            PreparedStatement preparedStatement = null;
+            String sql = "Update LoaiPhong Set TenLoaiPhong = ?,Gia = ?, SoGiuongNgu = ? Where MaLoaiPhong = ?";
+            LoaiPhong loaiPhong = new LoaiPhong();
+            loaiPhong.setMaLoaiPhong(maLoaiPhong);
+            loaiPhong.setTenLoaiPhong(tenLoaiPhong);
+            loaiPhong.setGia(giaTien);
+            loaiPhong.setSoGiuongNgu(soGiuong);
+
+            connection = ConnectingDB.getConnection();
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, loaiPhong.getTenLoaiPhong());
+            preparedStatement.setFloat(2, loaiPhong.getGia());
+            preparedStatement.setInt(3, loaiPhong.getSoGiuongNgu());
+            preparedStatement.setInt(4, loaiPhong.getMaLoaiPhong());
+            preparedStatement.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            return false;
+        }
+    }
+    
     @FXML
     private void huyLoaiPhong_Click(ActionEvent event) {
         txtTenLoaiPhong.setDisable(false);
@@ -330,15 +338,15 @@ public class LapDanhMucPhongController implements Initializable {
         });
     }
     private void TimKiemGiaTien(){
-        txtGiaTien.setOnKeyReleased(e->{
-            if(txtGiaTien.getText().equals("")){
+        txtTimGiaPhong.setOnKeyReleased(e->{
+            if(txtTimGiaPhong.getText().equals("")){
                 tbLoaiPhong.getItems().clear();
                 hienThiDuLieuLoaiPhong();
             }
             else{
                PreparedStatement preparedStatement = null;
                data.clear();
-               String sql = "Select * from LoaiPhong where Gia = '"+txtTimTenLoaiPhong.getText()+"'";
+               String sql = "Select * from LoaiPhong where Gia = '"+txtTimGiaPhong.getText()+"'";
                 try {               
                 preparedStatement = connection.prepareStatement(sql);
                 rs = preparedStatement.executeQuery();
@@ -357,5 +365,84 @@ public class LapDanhMucPhongController implements Initializable {
             }        
         });
     }
+    @FXML
+    private void btnVeMenuChinh_Click(ActionEvent event) {
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.close();
+        
+        try {
+            frmTrangChuController.strLoaiNguoiDung = "quanly";
+            Parent root = FXMLLoader.load(getClass().getResource("/hotelmanagamentapp/frmTrangChu.fxml"));
+            Scene scene = new Scene(root);
+            stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(frmTiepNhanKhachController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi đăng xuất.\n\n" + ex);
+        }
+    }
+    
+    @FXML
+    private void btnThoat_Click(ActionEvent event) {
+        if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thoát chương trình?", "Xác nhận hành động", 0, 2) == 0) {
+            // 0: error; 1: information; 2: warning
+            Stage stage = (Stage) mainPane.getScene().getWindow();
+            stage.close();
+        }
+    }
+    
+    @FXML
+    private void btnDangXuat_Click(ActionEvent event) {
+        Stage stage = (Stage) mainPane.getScene().getWindow();
+        stage.close();
+        
+        try {
+            Parent root = FXMLLoader.load(getClass().getResource("/hotelmanagamentapp/HotelManagament.fxml"));
+            Scene scene = new Scene(root);
+            stage = new Stage();
+            stage.setScene(scene);
+            stage.setTitle("Đăng nhập");
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(frmTiepNhanKhachController.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi khi đăng xuất.\n\n" + ex);
+        }
+    }
+    
+    private void LamMoi() {
+        txtTenLoaiPhong.setDisable(true);
+        cbSoGiuongNgu.setDisable(true);
+        txtGiaTien.setDisable(true);
+        btnThemLoaiPhong.setDisable(false);
+        btnSuaLoaiPhong.setDisable(false);
+        btnLuuLoaiPhong.setVisible(false);
+        btnHuyLoaiPhong.setVisible(false);
+        btnXoaLoaiPhong.setDisable(false);
+    }
+    
+    @FXML
+    private void isCheckTenLoaiPhong(ActionEvent event) {
+        if (rdbTenLoaiPhong.isSelected() == true) {
+            txtTimTenLoaiPhong.setDisable(false);
+            txtTimGiaPhong.setDisable(true);
+        }
+    }
 
+    @FXML
+    private void isCheckGiaTien(ActionEvent event) {
+        if (rdbGiaTien.isSelected() == true) {
+            txtTimTenLoaiPhong.setDisable(true);
+            txtTimGiaPhong.setDisable(false);
+        }
+    }
+
+    @FXML
+    private void isCheckTatCa(ActionEvent event) {
+        if (rdbTatCaLoaiPhong.isSelected() == true) {
+            txtTimTenLoaiPhong.setDisable(true);
+            txtTimGiaPhong.setDisable(true);
+        }
+        hienThiDuLieuLoaiPhong();
+    }
 }

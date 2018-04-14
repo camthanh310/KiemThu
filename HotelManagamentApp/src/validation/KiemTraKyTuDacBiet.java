@@ -5,6 +5,8 @@
  */
 package validation;
 
+import javafx.scene.control.Label;
+
 /**
  *
  * @author Hau
@@ -15,4 +17,16 @@ public class KiemTraKyTuDacBiet {
            return false;
         return true;
     }
+    
+    public static boolean KiemTraKyTuDacBietTextField(String tF, Label lB, String error){
+        boolean bl = true;
+        String msg = null;
+        if(kiemTraKyTuDacBiet(tF)){
+            bl = false;
+            msg = error;
+        }
+        lB.setText(msg);
+        
+        return bl;
+    } 
 }

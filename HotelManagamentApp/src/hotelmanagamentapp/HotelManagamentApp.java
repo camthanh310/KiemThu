@@ -5,6 +5,7 @@
  */
 package hotelmanagamentapp;
 
+import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,13 +22,9 @@ public class HotelManagamentApp extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("frmPhong.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("HotelManagament.fxml"));
         Scene scene = new Scene(root);
-//        AnchorPane.setBottomAnchor(root, 20.0);
-//        AnchorPane.setLeftAnchor(root, 60.0);
-//        AnchorPane.setRightAnchor(root, 20.0);
-//        AnchorPane.setTopAnchor(root, 20.0);
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
     }

@@ -12,14 +12,14 @@ import javafx.scene.control.Label;
  * @author Hau
  */
 public class KiemTraGiaTriTrong {
-    public boolean kiemTraGiaTriTrongTextField(String tF){
+    public static boolean kiemTraGiaTriTrongTextField(String tF){
         boolean bl = false;
         if(tF.length() != 0 || !tF.isEmpty()){
             bl = true;
         }
         return bl;
     }
-    public boolean kiemTraloiGiaTriTrongTextField(String tF, Label lB, String error){
+    public static boolean kiemTraloiGiaTriTrongTextField(String tF, Label lB, String error){
         boolean bl = true;
         String msg = null;
         if(!kiemTraGiaTriTrongTextField(tF)){

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="957.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.frmThemNhanVienController">
+   <children>
+      <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="158.0" layoutY="93.0" prefHeight="379.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+        <items>
+          <AnchorPane maxWidth="300.0" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
+          <AnchorPane minHeight="0.0" minWidth="700.0" prefHeight="448.0" prefWidth="700.0">
+               <children>
+                  <Label layoutX="253.0" layoutY="145.0" text="Quê quán:">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtQueQuan" layoutX="253.0" layoutY="166.0" prefHeight="31.0" prefWidth="386.0" promptText="Quê quán" AnchorPane.leftAnchor="253.0" AnchorPane.rightAnchor="61.0" />
+                  <Label layoutX="14.0" layoutY="193.0" text="Danh sách nhân viên" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="261.0" />
+                  <Button layoutX="378.0" layoutY="214.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="106.0" text="Hủy" wrapText="true" />
+                  <Button fx:id="btnLuu" layoutX="253.0" layoutY="214.0" mnemonicParsing="false" onAction="#btnLuu" prefHeight="35.0" prefWidth="106.0" text="Lưu thông tin" wrapText="true" />
+                  <ComboBox fx:id="cboGioiTinh" layoutX="19.0" layoutY="167.0" prefHeight="30.0" prefWidth="171.0" promptText="Chọn giới tính">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </ComboBox>
+                  <DatePicker fx:id="dpNgaySinh" layoutX="21.0" layoutY="103.0" prefHeight="31.0" prefWidth="167.0" promptText="Ngày sinh" AnchorPane.leftAnchor="21.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </DatePicker>
+                  <TextField fx:id="txtDiaChi" layoutX="253.0" layoutY="103.0" prefHeight="31.0" prefWidth="386.0" promptText="Địa chỉ" AnchorPane.leftAnchor="253.0" AnchorPane.rightAnchor="61.0" />
+                  <TextField fx:id="txtHoTen" layoutX="253.0" layoutY="40.0" prefHeight="31.0" prefWidth="386.0" promptText="Họ tên" AnchorPane.leftAnchor="253.0" AnchorPane.rightAnchor="61.0" />
+                  <TextField fx:id="txtMaNV" layoutX="21.0" layoutY="40.0" prefHeight="31.0" prefWidth="167.0" promptText="Mã nhân viên" AnchorPane.leftAnchor="21.0">
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </TextField>
+                  <TableView fx:id="tvDSNV" layoutX="9.0" layoutY="216.0" onMouseClicked="#layDongDuLieu" prefHeight="198.0" prefWidth="683.0" AnchorPane.bottomAnchor="6.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="6.0" AnchorPane.topAnchor="284.0">
+                     <columns>
+                        <TableColumn fx:id="colMaNV" prefWidth="102.0" text="Mã nhân viên" />
+                        <TableColumn fx:id="colHoTen" prefWidth="155.0" text="Họ tên" />
+                        <TableColumn fx:id="colNgaySinh" prefWidth="114.0" text="Ngày sinh" />
+                        <TableColumn fx:id="colGioiTinh" prefWidth="84.0" text="Giới tính" />
+                        <TableColumn fx:id="colQueQuan" prefWidth="157.0" text="Quê quán" />
+                        <TableColumn fx:id="colDiaChi" prefWidth="415.0" text="Địa chỉ" />
+                     </columns>
+                  </TableView>
+                  <Label layoutX="253.0" layoutY="82.0" text="Địa chỉ:">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="253.0" layoutY="18.0" text="Họ tên">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="21.0" layoutY="18.0" text="Mã nhân viên:">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="21.0" layoutY="82.0" text="Ngày sinh:">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="21.0" layoutY="145.0" text="Giới tính:">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="btnSaThai" layoutX="533.0" layoutY="214.0" mnemonicParsing="false" onAction="#btnSaThai" prefHeight="35.0" prefWidth="106.0" text="Sa thải" wrapText="true" AnchorPane.rightAnchor="61.0" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

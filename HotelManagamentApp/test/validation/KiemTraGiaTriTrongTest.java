@@ -42,7 +42,7 @@ public class KiemTraGiaTriTrongTest {
     //
     // @Test
     // public void hello() {}
-    @Test
+     @Test
     public void testKiemTraGiaTriTrongTextField() {
         String text = "b";
         KiemTraGiaTriTrong v =  new KiemTraGiaTriTrong();

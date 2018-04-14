@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="485.0" prefWidth="883.0" stylesheets="@nhanVienLayout.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.frmTiepNhanKhachController">
+   <children>
+      <MenuBar layoutX="127.0" layoutY="2.0" stylesheets="@nhanVienLayout.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Chức năng khác">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#btnVeMenuChinh_Click" text="Trở về menu chính" />
+              <MenuItem mnemonicParsing="false" onAction="#btnDangXuat_Click" text="Đăng xuất" />
+                  <MenuItem mnemonicParsing="false" onAction="#btnThoat_Click" text="Thoát chương trình" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <SplitPane dividerPositions="0.29797979797979796" layoutX="87.0" layoutY="89.0" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+        <items>
+          <AnchorPane maxWidth="200.0" minHeight="0.0" minWidth="200.0" prefHeight="373.0" prefWidth="109.0">
+               <children>
+                  <TableView fx:id="tbDSPhong" layoutX="-12.0" layoutY="90.0" prefHeight="368.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="90.0">
+                    <columns>
+                      <TableColumn id="colTieuDe" fx:id="colSoPhong" prefWidth="81.0" text="Số phòng" />
+                      <TableColumn fx:id="colTinhTrang" prefWidth="117.0" text="Tình trạng" />
+                    </columns>
+                  </TableView>
+                  <ComboBox fx:id="cbokieuXemTinhTrangPhong" layoutX="6.0" layoutY="26.0" onAction="#cbokieuXemTinhTrangPhong_SelectedChange" prefHeight="25.0" prefWidth="159.0" />
+                  <Label layoutX="2.0" layoutY="2.0" text="Kiểu xem tình trạng phòng:" />
+                  <Label fx:id="lblSoLuongKQTimTinhTrangPhong" layoutX="5.0" layoutY="67.0" text="Tìm thấy: 0 phòng." />
+               </children>
+            </AnchorPane>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+               <children>
+                  <Group layoutX="91.0" layoutY="44.0">
+                     <effect>
+                        <Bloom />
+                     </effect>
+                  </Group>
+                  <Label layoutX="19.0" layoutY="6.0" text="Họ tên khách hàng:" />
+                  <TextField fx:id="txtHoTenKH" layoutX="22.0" layoutY="32.0" prefHeight="23.0" prefWidth="176.0" promptText="Nhập họ tên khách hàng" />
+                  <TextField fx:id="txtSoDienThoaiKH" layoutX="243.0" layoutY="34.0" promptText="Nhập số điện thoại" />
+                  <TextField fx:id="txtSoCMND" layoutX="447.0" layoutY="30.0" prefHeight="23.0" prefWidth="214.0" promptText="Nhập số CMND" />
+                  <Label layoutX="243.0" layoutY="8.0" text="Số điện thoại:" />
+                  <Label layoutX="447.0" layoutY="6.0" text="Số CMND:" />
+                  <Label layoutX="447.0" layoutY="66.0" text="Ngày sinh:" />
+                  <Label layoutX="21.0" layoutY="63.0" text="Địa chỉ:" />
+                  <TextField fx:id="txtDiaChi" layoutX="21.0" layoutY="89.0" prefHeight="25.0" prefWidth="385.0" promptText="Nhập địa chỉ" />
+                  <DatePicker fx:id="dpNgaySinh" layoutX="446.0" layoutY="89.0" prefHeight="25.0" prefWidth="214.0" promptText="Chọn ngày sinh khách hàng" />
+                  <Label layoutX="444.0" layoutY="306.0" text="Đơn giá:" />
+                  <Label layoutX="445.0" layoutY="219.0" text="Số phòng:" />
+                  <Label layoutX="446.0" layoutY="144.0" text="Loại phòng:" />
+                  <Label layoutX="239.0" layoutY="303.0" text="Thành tiền:" />
+                  <Label layoutX="14.0" layoutY="307.0" text="Ngày trả phòng:" />
+                  <Label layoutX="241.0" layoutY="218.0" text="Số ngày ở:" />
+                  <Label layoutX="15.0" layoutY="217.0" text="Ngày đặt phòng:" />
+                  <Label layoutX="243.0" layoutY="144.0" text="Mã hóa đơn:" />
+                  <Label layoutX="18.0" layoutY="145.0" text="Mã khách hàng:" />
+                  <ComboBox fx:id="cboLoaiPhong" layoutX="447.0" layoutY="172.0" onAction="#cboLoaiPhong_SelectedChange" prefHeight="25.0" prefWidth="214.0" />
+                  <DatePicker fx:id="dpNgayDatPhong" layoutX="21.0" layoutY="244.0" onAction="#dpNgayDatPhong_ValueChange" prefHeight="25.0" prefWidth="176.0" promptText="Chọn ngày đặt phòng" />
+                  <ComboBox fx:id="cboSoNgayO" layoutX="243.0" layoutY="244.0" onAction="#cboSoNgayO__SelectedChange" prefHeight="25.0" prefWidth="163.0" />
+                  <ComboBox fx:id="cboSoPhong" layoutX="444.0" layoutY="244.0" prefHeight="25.0" prefWidth="214.0" />
+                  <Button id="btnDatPhong" fx:id="btnDatPhong" layoutX="420.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnDatPhong_Click" prefHeight="47.0" prefWidth="128.0" text="Đặt phòng">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="26.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Document-Write-icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button fx:id="btnHuy" layoutX="564.0" layoutY="382.0" mnemonicParsing="false" onAction="#btnHuy_Click" prefHeight="47.0" prefWidth="94.0" text="Hủy">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <graphic>
+                        <ImageView fitHeight="27.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../img/Button-Close-icon.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Label id="lblChuThichDinhDang" layoutX="16.0" layoutY="269.0" text="Định dạng: MM/dd/yyyy" textFill="#838181">
+                     <font>
+                        <Font size="1.0" />
+                     </font>
+                  </Label>
+                  <Label id="lblDonGia" fx:id="lblDonGia" layoutX="446.0" layoutY="330.0" prefHeight="32.0" prefWidth="214.0" stylesheets="@nhanVienLayout.css" text="0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label id="lblThanhTien" fx:id="lblThanhTien" layoutX="243.0" layoutY="329.0" prefHeight="32.0" prefWidth="163.0" stylesheets="@nhanVienLayout.css" text="0">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                  </Label>
+                  <Label id="lblNgayTraPhong" fx:id="lblNgayTraPhong" layoutX="17.0" layoutY="331.0" prefHeight="32.0" prefWidth="176.0" stylesheets="@nhanVienLayout.css" text="01/01/2018">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label id="lblChuThichDinhDang" layoutX="449.0" layoutY="114.0" text="Định dạng: MM/dd/yyyy" textFill="#838181">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+                  <Label id="lblMa" fx:id="lblMaKhachHang" layoutX="18.0" layoutY="171.0" prefHeight="1.0" prefWidth="176.0">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label id="lblMa" fx:id="lblMaHoaDon" layoutX="243.0" layoutY="171.0" prefHeight="31.0" prefWidth="163.0">
+                     <padding>
+                        <Insets left="5.0" />
+                     </padding>
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

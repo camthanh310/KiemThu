@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="537.0" prefWidth="752.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.frmThanhToanPhongController">
+    <stylesheets>
+        <URL value="@nhanVienLayout.css" />
+    </stylesheets>
+   <children>
+      <TableView fx:id="tbPhieuThanhToan" layoutX="206.0" layoutY="117.0" onMouseClicked="#tbPhieuThanhToan_SelectedIndexChanged" prefHeight="162.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+        <columns>
+          <TableColumn fx:id="colMaKhachHang" prefWidth="116.0" text="Mã khách hàng" />
+          <TableColumn fx:id="colHoTen" prefWidth="207.0" text="Họ tên" />
+            <TableColumn fx:id="colSoPhong" minWidth="0.0" prefWidth="87.0" text="Số phòng" />
+            <TableColumn fx:id="colNgayThue" minWidth="0.0" prefWidth="102.0" text="Ngày thuê" />
+            <TableColumn fx:id="colNgayTra" minWidth="0.0" prefWidth="102.0" text="Ngày trả" />
+            <TableColumn fx:id="colTongTien" minWidth="0.0" prefWidth="102.0" text="Tổng tiền" />
+        </columns>
+      </TableView>
+      <TextField fx:id="txtTimThongTinThanhToan" layoutX="24.0" layoutY="332.0" prefHeight="30.0" prefWidth="273.0" promptText="Nhập số phòng để tìm kiếm thanh toán:" AnchorPane.bottomAnchor="175.0" AnchorPane.leftAnchor="24.0">
+         <font>
+            <Font size="14.0" />
+         </font></TextField>
+      <Button layoutX="301.0" layoutY="328.0" mnemonicParsing="false" onAction="#btnTimThongTinThanhToan_Click" prefHeight="38.0" prefWidth="116.0" text="Tìm kiếm" AnchorPane.bottomAnchor="171.0" AnchorPane.leftAnchor="301.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="21.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/Start-Menu-Search-icon.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
+      <MenuBar layoutX="137.0" layoutY="12.0" stylesheets="@nhanVienLayout.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Chức năng khác">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#btnVeMenuChinh_Click" text="Trở về menu chính" />
+                  <MenuItem mnemonicParsing="false" onAction="#btnDangXuat_Click" text="Đăng xuất" />
+                  <MenuItem mnemonicParsing="false" onAction="#btnThoat_Click" text="Thoát chương trình" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Label id="lblMa" fx:id="lblSoPhong" layoutX="457.0" layoutY="137.0" prefHeight="32.0" prefWidth="163.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblMa" fx:id="lblMaKhachHang" layoutX="27.0" layoutY="136.0" prefHeight="1.0" prefWidth="176.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblNgayTraPhong" fx:id="lblNgayTraPhong" layoutX="29.0" layoutY="281.0" prefHeight="32.0" prefWidth="176.0" stylesheets="@nhanVienLayout.css">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblThanhTien" fx:id="lblThanhTien" layoutX="457.0" layoutY="209.0" prefHeight="32.0" prefWidth="163.0" stylesheets="@nhanVienLayout.css">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblDonGia" fx:id="lblDonGia" layoutX="253.0" layoutY="281.0" prefHeight="32.0" prefWidth="163.0" stylesheets="@nhanVienLayout.css">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label layoutX="27.0" layoutY="110.0" text="Mã khách hàng:" />
+      <Label layoutX="252.0" layoutY="109.0" text="Mã hóa đơn:" />
+      <Label layoutX="24.0" layoutY="182.0" text="Ngày đặt phòng:" />
+      <Label layoutX="250.0" layoutY="183.0" text="Số ngày ở:" />
+      <Label layoutX="26.0" layoutY="257.0" text="Ngày trả phòng:" />
+      <Label layoutX="453.0" layoutY="183.0" text="Thành tiền:" />
+      <Label layoutX="457.0" layoutY="37.0" text="Loại phòng:" />
+      <Label layoutX="456.0" layoutY="112.0" text="Số phòng:" />
+      <Label layoutX="251.0" layoutY="257.0" text="Đơn giá:" />
+      <Label layoutX="251.0" layoutY="37.0" text="Số CMND:" />
+      <Label layoutX="26.0" layoutY="37.0" text="Họ tên khách hàng:" />
+      <Group layoutX="101.0" layoutY="54.0">
+         <effect>
+            <Bloom />
+         </effect>
+      </Group>
+      <Label id="lblMa" fx:id="lblHoTen" layoutX="29.0" layoutY="62.0" prefHeight="1.0" prefWidth="176.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblMa" fx:id="lblSoCMND" layoutX="254.0" layoutY="62.0" prefHeight="32.0" prefWidth="163.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblMa" fx:id="lblNgayDatPhong" layoutX="27.0" layoutY="209.0" prefHeight="1.0" prefWidth="176.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblMa" fx:id="lblSoNgayO" layoutX="252.0" layoutY="209.0" prefHeight="32.0" prefWidth="163.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblMa" fx:id="lblMaHoaDon" layoutX="253.0" layoutY="136.0" prefHeight="32.0" prefWidth="163.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Label id="lblMa" fx:id="lblLoaiPhong" layoutX="455.0" layoutY="64.0" prefHeight="32.0" prefWidth="163.0">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+         <padding>
+            <Insets left="5.0" />
+         </padding>
+      </Label>
+      <Button fx:id="btnThanhToan" layoutX="457.0" layoutY="269.0" mnemonicParsing="false" onAction="#btnThanhToan_Click" prefHeight="49.0" prefWidth="163.0" text="Thanh toán">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="30.0" fitWidth="33.0" layoutX="465.0" layoutY="279.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../img/Sales-by-payment-method-icon.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

@@ -22,8 +22,9 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javax.swing.JOptionPane;
 
-import Data.ConnectingDB;
-import Data.Login;
+import DAO.ConnectingDB;
+import DAO.Login;
+import javafx.scene.control.ComboBox;
 
 /**
  *
@@ -38,7 +39,8 @@ public class HotelManagamentController implements Initializable {
     @FXML private Button btnLamMoi;
     @FXML private Button btnThoat;
     @FXML private Pane paneDangNhap;
-    @FXML private GridPane gridMainPan;
+    @FXML private GridPane gridMainPane;
+    @FXML private ComboBox cbo;
     
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -46,10 +48,18 @@ public class HotelManagamentController implements Initializable {
         label.setText("Hello World!");
     }
     
+    @FXML
+    private void btnThoat_Click(ActionEvent event) {
+        if (JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn thoát chương trình?", "Xác nhận hành động", 0, 2) == 0) {
+            // 0: error; 1: information; 2: warning
+            Stage stage = (Stage) gridMainPane.getScene().getWindow();
+            stage.close();
+        }
+    }
+    
     @FXML private void btnLamMoi(ActionEvent event){
         txtTenDangNhap.setText("");
         txtMatKhau.setText("");
-        paneDangNhap.setVisible(false);
     }
     
     @FXML private void btnDangNhap(ActionEvent event) {
@@ -71,25 +81,31 @@ public class HotelManagamentController implements Initializable {
             if (rs.isBeforeFirst()) {
                 JOptionPane.showMessageDialog(null, "Đăng nhập thành công!");               
 //
-                Stage stage = (Stage) gridMainPan.getScene().getWindow();
+                Stage stage = (Stage) gridMainPane.getScene().getWindow();
                 stage.close();
                 
                 Parent root = null;
-                if ("quanly".equals(strTenDangNhap)) {
-                    root = FXMLLoader.load(getClass().getResource("/hotelmanagamentapp/Phong.fxml"));
+                if ("Quản lý".equals(Login.layLoaiNguoiDung(strTenDangNhap))) {
+                    frmTrangChuController.strLoaiNguoiDung = "quanly";
+                    frmTrangChuController.lblXinChao = "quanly";
+                    //root = FXMLLoader.load(getClass().getResource("/hotelmanagamentapp/QuanLy.fxml"));
                 }
                 else {
-                    
+                    frmTrangChuController.strLoaiNguoiDung = "nhanvien";
+                    frmTrangChuController.lblXinChao = "nhanvien";
+                    //root = FXMLLoader.load(getClass().getResource("/hotelmanagamentapp/NhanVien.fxml"));
                 }
+                root = FXMLLoader.load(getClass().getResource("/hotelmanagamentapp/frmTrangChu.fxml"));
                 Scene scene = new Scene(root);
                 stage.setScene(scene);
+                stage.setResizable(false);
+                stage.setTitle("Quản lý khách sạn Phố Biển");
                 stage.show();
             }
             else
                 JOptionPane.showMessageDialog(null, "Sai tên đăng nhập hoặc mật khẩu");
         }
         catch (Exception | ExceptionInInitializerError e){
-
             JOptionPane.showMessageDialog(null, "Đã xảy ra lỗi!\n\n" + e.getMessage());
         }
     }
@@ -97,6 +113,5 @@ public class HotelManagamentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    
+    }       
 }

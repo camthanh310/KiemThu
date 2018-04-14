@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
@@ -8,60 +10,114 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="457.0" prefWidth="516.0" stylesheets="@layoutApp.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.LapDanhMucPhongController">
+<AnchorPane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="635.0" prefWidth="600.0" stylesheets="@layoutApp.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.LapDanhMucPhongController">
    <children>
-      <TextField fx:id="txtMaLoaiPhong" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <TextField fx:id="txtTenLoaiPhong" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <Label text="Mã Loại Phòng" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-      <Label text="Tên Loại Phòng" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-      <Label text="Số Giường" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="2" />
-      <Label text="Giá Tiền" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="4" />
-      <ComboBox fx:id="cbSoGiuongNgu" disable="true" prefHeight="25.0" prefWidth="201.0" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-      <Button fx:id="btnThemLoaiPhong" mnemonicParsing="false" onAction="#themLoaiPhong_Click" styleClass="btnThemLoaiPhong" text="Thêm" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtTieuDePhong" text="Quản Lý Danh Mục Phòng" GridPane.columnSpan="4" GridPane.halignment="CENTER" GridPane.rowSpan="2" />
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tìm kiếm" GridPane.halignment="RIGHT" GridPane.rowIndex="8" />
-      <RadioButton fx:id="rdbTenLoaiPhong" mnemonicParsing="false" onAction="#isCheckTenLoaiPhong" selected="true" text="Tên Loại Phòng" GridPane.halignment="RIGHT" GridPane.rowIndex="9">
+      <Text layoutX="75.0" layoutY="65.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtTieuDePhong" text="Quản Lý Danh Mục Phòng" />
+      <Label layoutX="26.0" layoutY="168.0" styleClass="lblThuocTinh" text="Tên Loại Phòng" />
+      <Label layoutX="332.0" layoutY="121.0" styleClass="lblThuocTinh" text="Số Giường" />
+      <Label layoutX="24.0" layoutY="121.0" styleClass="lblThuocTinh" text="Mã Loại Phòng" />
+      <Label layoutX="347.0" layoutY="168.0" styleClass="lblThuocTinh" text="Giá Tiền" />
+      <RadioButton fx:id="rdbTenLoaiPhong" layoutX="226.0" layoutY="347.0" mnemonicParsing="false" onAction="#isCheckTenLoaiPhong" styleClass="lblThuocTinh" text="Theo Tên Loại Phòng">
          <toggleGroup>
-            <ToggleGroup fx:id="timkiem" />
-         </toggleGroup></RadioButton>
-      <RadioButton fx:id="rdbGiaTien" mnemonicParsing="false" onAction="#isCheckGiaTien" text="Giá Tiền" toggleGroup="$timkiem" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.rowIndex="9" />
-      <TextField fx:id="txtTimTenLoaiPhong" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-      <TextField fx:id="txtGiaTien" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-      <TableView fx:id="tbLoaiPhong" prefHeight="200.0" prefWidth="200.0" GridPane.columnSpan="4" GridPane.rowIndex="10" GridPane.rowSpan="2">
+            <ToggleGroup fx:id="timkiemloaiphong" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="rdbGiaTien" layoutX="414.0" layoutY="347.0" mnemonicParsing="false" onAction="#isCheckGiaTien" styleClass="lblThuocTinh" text="Theo Giá Tiền" toggleGroup="$timkiemloaiphong" />
+      <TextField fx:id="txtMaLoaiPhong" disable="true" layoutX="129.0" layoutY="117.0" />
+      <ComboBox fx:id="cbSoGiuongNgu" disable="true" layoutX="404.0" layoutY="117.0" prefHeight="23.0" prefWidth="163.0" />
+      <TableView fx:id="tbLoaiPhong" layoutX="30.0" layoutY="423.0" prefHeight="200.0" prefWidth="536.0">
          <columns>
-            <TableColumn fx:id="colMaLoaiPhong" prefWidth="111.0" text="Mã Loại Phòng" />
-            <TableColumn fx:id="colTenLoaiPhong" prefWidth="133.0" text="Tên Loại Phòng" />
-            <TableColumn fx:id="colGiaTien" prefWidth="83.0" text="Giá Tiền" />
-            <TableColumn fx:id="colSoGiuongNgu" prefWidth="111.0" text="Số Giường Ngủ" />
-         </columns></TableView>
-      <Label fx:id="errorTenLoaiPhong" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-      <Label fx:id="errorMaLoaiPhong" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-      <Label fx:id="errorGiaTien" text="Label" GridPane.columnIndex="3" GridPane.rowIndex="5" />
-      <Button fx:id="btnXoaLoaiPhong" mnemonicParsing="false" onAction="#xoaLoaiPhong_Click" styleClass="btnSuaLoaiPhong" text="Xóa" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-      <Button fx:id="btnSuaLoaiPhong" mnemonicParsing="false" onAction="#suaLoaiPhong_Click" text="Sửa" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-      <TextField fx:id="txtTimGiaPhong" disable="true" GridPane.columnIndex="3" GridPane.rowIndex="9" />
-      <Button fx:id="btnLuuLoaiPhong" layoutX="156.0" layoutY="195.0" mnemonicParsing="false" onAction="#luuLoaiPhong_Click" styleClass="btnThemLoaiPhong" text="Lưu" visible="false" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-      <Button fx:id="btnHuyLoaiPhong" layoutX="119.0" layoutY="225.0" mnemonicParsing="false" onAction="#huyLoaiPhong_Click" styleClass="btnThemLoaiPhong" text="Hủy" visible="false" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
+            <TableColumn fx:id="colMaLoaiPhong" prefWidth="117.0" styleClass="col" text="Mã Loại Phòng" />
+            <TableColumn fx:id="colTenLoaiPhong" prefWidth="132.0" styleClass="col" text="Tên Loại Phòng" />
+            <TableColumn fx:id="colGiaTien" prefWidth="129.0" styleClass="col" text="Giá Tiền" />
+            <TableColumn fx:id="colSoGiuongNgu" minWidth="3.0" prefWidth="157.0" styleClass="col" text="Số Giường Ngủ" />
+         </columns>
+      </TableView>
+      <TextField fx:id="txtTenLoaiPhong" disable="true" layoutX="132.0" layoutY="164.0" />
+      <TextField fx:id="txtTimTenLoaiPhong" disable="true" layoutX="225.0" layoutY="387.0" />
+      <Text layoutX="24.0" layoutY="330.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lbThongTin" text="Tìm Kiếm Loại Phòng" />
+      <Text fill="#2f2d2d" layoutX="30.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="lbThongTin" text="Thông Tin Loại Phòng" />
+      <RadioButton fx:id="rdbTatCaLoaiPhong" layoutX="98.0" layoutY="347.0" mnemonicParsing="false" onAction="#isCheckTatCa" selected="true" styleClass="lblThuocTinh" text="Tất cả" toggleGroup="$timkiemloaiphong" />
+      <TextField fx:id="txtGiaTien" disable="true" layoutX="408.0" layoutY="164.0" />
+      <TextField fx:id="txtTimGiaPhong" disable="true" layoutX="414.0" layoutY="387.0" />
+      <HBox alignment="CENTER" layoutX="1.0" layoutY="268.0" prefHeight="50.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="btnLuuLoaiPhong" mnemonicParsing="false" onAction="#luuLoaiPhong_Click" prefHeight="39.0" prefWidth="82.0" text="Lưu" visible="false">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Save-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnHuyLoaiPhong" mnemonicParsing="false" onAction="#huyLoaiPhong_Click" prefHeight="39.0" prefWidth="82.0" text="Hủy" visible="false">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Button-Delete-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" layoutY="218.0" prefHeight="50.0" prefWidth="600.0">
+         <children>
+            <Button fx:id="btnThemLoaiPhong" mnemonicParsing="false" onAction="#themLoaiPhong_Click" prefHeight="39.0" prefWidth="82.0" text="Thêm">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Button-Add-icon%20(1).png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <opaqueInsets>
+                  <Insets right="10.0" />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="btnSuaLoaiPhong" lineSpacing="15.0" mnemonicParsing="false" onAction="#xoaLoaiPhong_Click" prefHeight="39.0" prefWidth="82.0" text="Sửa">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Edit-validated-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="btnXoaLoaiPhong" lineSpacing="15.0" mnemonicParsing="false" onAction="#xoaLoaiPhong_Click" prefHeight="39.0" prefWidth="82.0" text="Xóa">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Button-Close-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <HBox.margin>
+                  <Insets left="15.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <Label fx:id="errorLaSo" layoutX="409.0" layoutY="186.0" textFill="#d31414" />
+      <Label fx:id="errorTenLoaiPhong" layoutX="133.0" layoutY="186.0" styleClass="lblError" stylesheets="@layoutApp.css" textFill="#d31414" />
+      <Label fx:id="errorGiaTien" layoutX="409.0" layoutY="186.0" styleClass="lblError" stylesheets="@layoutApp.css" textFill="#d31414" />
+ <MenuBar layoutX="147.0" layoutY="22.0" stylesheets="@nhanVienLayout.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Chức năng khác">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#btnVeMenuChinh_Click" text="Trở về menu chính" />
+                  <MenuItem mnemonicParsing="false" onAction="#btnDangXuat_Click" text="Đăng xuất" />
+                  <MenuItem mnemonicParsing="false" onAction="#btnThoat_Click" text="Thoát chương trình" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
    </children>
-   <columnConstraints>
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="273.0" minWidth="10.0" prefWidth="123.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="316.0" minWidth="10.0" prefWidth="159.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="82.0" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="205.0" minWidth="10.0" prefWidth="152.0" />
-   </columnConstraints>
-   <rowConstraints>
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-      <RowConstraints />
-   </rowConstraints>
-</GridPane>
+</AnchorPane>

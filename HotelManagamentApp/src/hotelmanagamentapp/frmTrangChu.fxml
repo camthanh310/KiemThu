@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="mainPane" prefHeight="469.0" prefWidth="615.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hotelmanagamentapp.frmTrangChuController">
+   <children>
+      <Text layoutY="70.01953125" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="txtTieuDePhong" text="KHÁCH SẠN  PHỐ BIỂN" textAlignment="CENTER" wrappingWidth="615.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+      <VBox layoutX="7.0" layoutY="156.0" prefHeight="300.0" prefWidth="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="155.0">
+         <children>
+            <Button fx:id="btnQuanLyPhong" mnemonicParsing="false" onAction="#hienThiThongTinPhong" prefHeight="40.0" prefWidth="159.0" text="Quản lý Phòng">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Door-Chat-Room-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="5.0" top="10.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnQuanLyLoaiPhong" mnemonicParsing="false" onAction="#hienThiThongTinLoaiPhong" prefHeight="40.0" prefWidth="159.0" text="Danh Mục Phòng">
+               <graphic>
+                  <ImageView fitHeight="26.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/door-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="5.0" top="15.0" />
+               </VBox.margin>
+            </Button>
+            <Button fx:id="btnThanhToan" mnemonicParsing="false" onAction="#btnThanhToanPhong_Click" prefHeight="49.0" prefWidth="159.0" text="Thanh toán phòng">
+               <VBox.margin>
+                  <Insets left="5.0" top="24.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Receipt-3-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnTiepNhanKhach" mnemonicParsing="false" onAction="#btnTiepNhanKhach_Click" prefHeight="49.0" prefWidth="159.0" text="Tiếp nhận khách">
+               <VBox.margin>
+                  <Insets left="5.0" top="15.0" />
+               </VBox.margin>
+               <graphic>
+                  <ImageView fitHeight="38.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/Sales-by-payment-method-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="btnInBaoCao" mnemonicParsing="false" onAction="#btnInBaoCao_Click" prefHeight="49.0" prefWidth="159.0" text="In báo cáo">
+               <graphic>
+                  <ImageView fitHeight="33.0" fitWidth="31.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../img/chart-icon.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="5.0" top="15.0" />
+               </VBox.margin>
+            </Button>
+         </children>
+      </VBox>
+      <ImageView fitHeight="331.0" fitWidth="435.0" layoutX="171.0" layoutY="113.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="175.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="135.0">
+         <image>
+            <Image url="@../img/KhachSan%20Pho%20bIEN.jpg" />
+         </image>
+      </ImageView>
+      <MenuBar layoutX="137.0" layoutY="12.0" stylesheets="@nhanVienLayout.css" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Chức năng khác">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#btnDangXuat_Click" text="Đăng xuất" />
+                  <MenuItem mnemonicParsing="false" onAction="#btnThoat_Click" text="Thoát chương trình" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <Label id="lblXinChao" fx:id="lblTieuDeXinChao" alignment="CENTER" layoutY="85.0" text="XIN CHÀO" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+   </children>
+   <stylesheets>
+      <URL value="@layoutApp.css" />
+   </stylesheets>
+</AnchorPane>
